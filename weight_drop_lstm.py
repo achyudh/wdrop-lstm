@@ -58,7 +58,6 @@ class WeightDropLSTM(nn.Module):
         raw_outputs = []
         outputs = []
         for l, rnn in enumerate(self.rnns):
-            current_input = raw_output
             raw_output, new_h = rnn(raw_output, hidden[l])
             new_hidden.append(new_h)
             raw_outputs.append(raw_output)
@@ -70,7 +69,7 @@ class WeightDropLSTM(nn.Module):
         output = self.lockdrop(raw_output, self.dropout)
         outputs.append(output)
 
-        result = output.view(output.size(0)*output.size(1), output.size(2))
+        result = output
         if return_h:
             return result, hidden, raw_outputs, outputs
         return result, hidden

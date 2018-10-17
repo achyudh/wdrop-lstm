@@ -34,7 +34,7 @@ class WDropModel(nn.Module):
         if lengths is not None:
             x = torch.nn.utils.rnn.pack_padded_sequence(x, lengths, batch_first=True)
         self.hidden = WDropModel.repackage_hidden(self.hidden)
-        output, self.hidden, rnn_hs, dropped_rnn_hs = self.wdrop_lstm(x, self.hidden, return_h=True)
+        x, self.hidden = self.wdrop_lstm(x, self.hidden)
         if lengths is not None:
             x, _ = torch.nn.utils.rnn.pad_packed_sequence(x, batch_first=True)
         x = F.relu(torch.transpose(x, 1, 2))
